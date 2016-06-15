@@ -6,103 +6,74 @@ class Fixnum
   def to_roman
     num = self
     roman_numeral = ''
-    if num == 3000
-      roman_numeral += 'MMM'
-      num = num - 3000
-    elsif num >= 2000
-      roman_numeral += 'MM'
-      num = num - 2000
-    elsif num >=1000
-      roman_numeral += 'M'
-      num = num - 1000
-    end
-    hundreds_digit(roman_numeral, num)
-  end
-
-  def hundreds_digit (roman_numeral, num)
-    if num >= 900
-      roman_numeral += 'CM'
-      num = num - 900
-    elsif num >= 800
-      roman_numeral += 'DCCC'
-      num = num - 800
-    elsif num >= 700
-      roman_numeral += 'DCC'
-      num = num - 700
-    elsif num >= 600
-      roman_numeral += 'DC'
-      num = num - 600
-    elsif num >= 500
-      roman_numeral += 'D'
-      num = num - 500
-    elsif num >= 400
-      roman_numeral += 'CD'
-      num = num - 400
-    elsif num >= 300
-      roman_numeral += 'CCC'
-      num = num - 300
-    elsif num >= 200
-      roman_numeral += 'CC'
-      num = num - 200
-    elsif num >= 100
-      roman_numeral += 'C'
-      num = num - 100
-    end
-    tens_digit(roman_numeral, num)
-  end
-
-  def tens_digit (roman_numeral, num)
-    if num >= 90
-      roman_numeral += 'XC'
-      num = num - 90
-    elsif num >= 80
-      roman_numeral += 'LXXX'
-      num = num - 80
-    elsif num >= 70
-      roman_numeral += 'LXX'
-      num = num - 70
-    elsif num >= 60
-      roman_numeral += 'LX'
-      num = num - 60
-    elsif num >= 50
-      roman_numeral += 'L'
-      num = num - 50
-    elsif num >= 40
-      roman_numeral += 'XL'
-      num = num - 40
-    elsif num >= 30
-      roman_numeral += 'XXX'
-      num = num - 30
-    elsif num >= 20
-      roman_numeral += 'XX'
-      num = num - 20
-    elsif num >= 10
-      roman_numeral += 'X'
-      num = num - 10
-    end
-    ones_digit(roman_numeral, num)
+    roman_numeral = thousands_digit(roman_numeral, num) if num >= 1000
+    roman_numeral = hundreds_digit(roman_numeral, num) if num >= 100
+    roman_numeral = tens_digit(roman_numeral, num) if num >= 10
+    roman_numeral = ones_digit(roman_numeral, num)
+    roman_numeral
   end
 
   def ones_digit (roman_numeral, num)
-    if num >= 9
-      roman_numeral += 'IX'
-    elsif num >= 8
-      roman_numeral += 'VIII'
-    elsif num >= 7
-      roman_numeral += 'VII'
-    elsif num >= 6
-      roman_numeral += 'VI'
-    elsif num >= 5
-      roman_numeral += 'V'
-    elsif num >= 4
-      roman_numeral += 'IV'
-    elsif num >= 3
-      roman_numeral += 'III'
-    elsif num >= 2
-      roman_numeral += 'II'
-    elsif num >= 1
-      roman_numeral += 'I'
-    end
-    roman_numeral
+    my_digit_hash = {
+      0 => '',
+      1 => 'I',
+      2 => 'II',
+      3 => 'III',
+      4 => 'IV',
+      5 => 'V',
+      6 => 'VI',
+      7 => 'VII',
+      8 => 'VIII',
+      9 => 'IX'
+    }
+    digit = num.to_s.split('')[-1].to_i
+    roman_numeral = "#{roman_numeral}#{my_digit_hash[digit]}"
   end
+
+  def tens_digit (roman_numeral, num)
+    my_digit_hash = {
+      1 => 'X',
+      2 => 'XX',
+      3 => 'XXX',
+      4 => 'XL',
+      5 => 'L',
+      6 => 'LX',
+      7 => 'LXX',
+      8 => 'LXXX',
+      9 => 'XC'
+    }
+    digit = num.to_s.split('')[-2].to_i
+    roman_numeral = "#{roman_numeral}#{my_digit_hash[digit]}"
+  end
+
+  def hundreds_digit (roman_numeral, num)
+    my_digit_hash = {
+      1 => 'C',
+      2 => 'CC',
+      3 => 'CCC',
+      4 => 'CD',
+      5 => 'D',
+      6 => 'DC',
+      7 => 'DCC',
+      8 => 'DCCC',
+      9 => 'CM'
+    }
+    digit = num.to_s.split('')[-3].to_i
+    roman_numeral = "#{roman_numeral}#{my_digit_hash[digit]}"
+  end
+
+  def thousands_digit (roman_numeral, num)
+    my_digit_hash = {
+      1 => 'M',
+      2 => 'MM',
+      3 => 'MMM',
+      4 => '',
+      5 => '',
+      6 => '',
+      7 => '',
+      8 => '',
+      9 => ''
+    }
+    digit = num.to_s.split('')[-4].to_i
+    roman_numeral = "#{roman_numeral}#{my_digit_hash[digit]}"  end
 end
